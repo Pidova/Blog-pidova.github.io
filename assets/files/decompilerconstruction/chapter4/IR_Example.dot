@@ -1,0 +1,68 @@
+digraph G {
+    
+    // Style
+    node [shape=box, fontname="Courier New", fontsize=12, style=filled, fillcolor="#f9f9f9"];
+    edge [fontname="Arial", fontsize=10];
+
+    
+    // Lables
+    Start [label="Start", shape=oval, fillcolor="#e1f5fe"];
+    
+    // // int hello = 0;
+    Init [label="[Assignment] STAT", fillcolor="#ff474c"];
+    Init_L1 [label="[Bitcast] 32i", fillcolor="#88E788"];
+    Init_L2 [label="[Variable] hello", fillcolor="#88E788"];
+    Init_R [label="[Value] 0", fillcolor="#88E788"];
+    
+    // While (hello < 100) 
+    Condition [label="[While] STAT", shape=diamond, fillcolor="#ff474c"];
+    Condition_E [label="[Compare] <", fillcolor="#88E788"];
+    Condition_EL [label="[Variable] hello", fillcolor="#88E788"];
+    Condition_ER [label="[Value] 100", fillcolor="#88E788"];
+    
+    // hello = hello + (hello * hello);
+    LoopBody [label="[Assignment] STAT", fillcolor="#ff474c"];
+    LoopBody_L [label="[Variable] hello", fillcolor="#88E788"];
+    LoopBody_R [label="[Arithmetic] +", fillcolor="#88E788"];
+    LoopBody_RL [label="[Variable] hello", fillcolor="#88E788"];
+    LoopBody_RR [label="[Arithmetic] *", fillcolor="#88E788"];  
+    LoopBody_RRL [label="[Variable] hello", fillcolor="#88E788"];
+    LoopBody_RRR [label="[Variable] hello", fillcolor="#88E788"];
+    // End
+    End [label="[While-End] STAT", fillcolor="#ff474c"];
+    
+    // printf(\"%d, %d\\n\", hello, hello);
+    Print [label="[Call] Stat", fillcolor="#ff474c"];
+    Print_V1 [label="[Global] printf", fillcolor="#88E788"];
+    Print_V2 [label="[String] %d, %d\\n", fillcolor="#88E788"];
+    Print_V3 [label="[Variable] hello", fillcolor="#88E788"];
+    Print_V4 [label="[Variable] hello", fillcolor="#88E788"];
+    
+    Start -> Init;
+    
+    // int hello = 0;
+    Init -> Init_L1
+    Init_L1 -> Init_L2
+    Init -> Init_R
+ 
+    Init -> Condition;
+    Condition -> Condition_E
+    Condition_E -> Condition_EL
+    Condition_E -> Condition_ER
+     
+    // Loop 
+    Condition -> LoopBody
+    
+    LoopBody -> End
+    LoopBody -> LoopBody_L
+    LoopBody -> LoopBody_R
+    LoopBody_R -> LoopBody_RL
+    LoopBody_R -> LoopBody_RR
+    LoopBody_RR -> LoopBody_RRL
+    LoopBody_RR -> LoopBody_RRR
+    End -> Print
+    Print -> Print_V1
+    Print -> Print_V2
+    Print -> Print_V3
+    Print -> Print_V4
+}
