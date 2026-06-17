@@ -1,0 +1,119 @@
+  push rbp
+  mov rbp, rsp
+  sub rsp, 32
+  mov dword ptr [rbp - 4], 0
+  mov dword ptr [rbp - 8], 9
+  mov dword ptr [rbp - 12], 0
+LBB1_1:
+  cmp dword ptr [rbp - 12], 1000
+  jge LBB1_4
+  mov eax, dword ptr [rbp - 12]
+  mov dword ptr [rbp - 24], eax
+  mov eax, dword ptr [rbp - 12]
+  xor eax, 170
+  mov dword ptr [rbp - 20], eax
+  mov eax, dword ptr [rbp - 12]
+  add eax, 3
+  mov dword ptr [rbp - 16], eax
+  lea rdi, [rbp - 8]
+  lea rsi, [rbp - 24]
+  mov edx, 19
+  call func
+  mov eax, dword ptr [rbp - 12]
+  add eax, 1
+  mov dword ptr [rbp - 12], eax
+  jmp LBB1_1
+LBB1_4:
+  xor eax, eax
+  add rsp, 32
+  pop rbp
+  ret
+
+
+func:
+  push rbp
+  mov rbp, rsp
+  mov qword ptr [rbp - 8], rdi
+  mov qword ptr [rbp - 16], rsi
+  mov dword ptr [rbp - 20], edx
+  mov dword ptr [rbp - 24], 0
+  mov dword ptr [rbp - 28], 0
+  mov eax, dword ptr [rbp - 20]
+  xor eax, 90
+  mov rcx, qword ptr [rbp - 16]
+  mov ecx, dword ptr [rcx]
+  shl ecx
+  add eax, ecx
+  mov dword ptr [rbp - 32], eax
+LBB0_1:
+  cmp dword ptr [rbp - 28], 10
+  jge LBB0_10
+  mov eax, dword ptr [rbp - 32]
+  imul ecx, dword ptr [rbp - 28], 3
+  xor eax, ecx
+  mov dword ptr [rbp - 32], eax
+  mov eax, dword ptr [rbp - 32]
+  and eax, 1
+  cmp eax, 0
+  jne LBB0_4
+  mov rax, qword ptr [rbp - 8]
+  movsxd rcx, dword ptr [rbp - 28]
+  mov eax, dword ptr [rax + 4*rcx]
+  mov rcx, qword ptr [rbp - 16]
+  add eax, dword ptr [rcx + 4]
+  add eax, dword ptr [rbp - 24]
+  mov dword ptr [rbp - 24], eax
+  jmp LBB0_5
+LBB0_4:
+  mov rax, qword ptr [rbp - 8]
+  movsxd rcx, dword ptr [rbp - 28]
+  mov eax, dword ptr [rax + 4*rcx]
+  mov rcx, qword ptr [rbp - 16]
+  xor eax, dword ptr [rcx + 8]
+  add eax, dword ptr [rbp - 24]
+  mov dword ptr [rbp - 24], eax
+LBB0_5:
+  cmp dword ptr [rbp - 24], 100
+  jle LBB0_7
+  jmp LBB0_10
+LBB0_7:
+  mov eax, dword ptr [rbp - 28]
+  add eax, 1
+  mov dword ptr [rbp - 28], eax
+  mov eax, dword ptr [rbp - 28]
+  mov ecx, 3
+  cdq
+  idiv ecx
+  cmp edx, 0
+  jne LBB0_9
+  jmp LBB0_1
+LBB0_9:
+  mov eax, dword ptr [rbp - 32]
+  shl eax
+  mov ecx, dword ptr [rbp - 32]
+  sar ecx, 31
+  or eax, ecx
+  mov dword ptr [rbp - 32], eax
+  jmp LBB0_1
+LBB0_10:
+  mov eax, dword ptr [rbp - 24]
+  shl eax
+  mov dword ptr [rbp - 36], eax
+  mov eax, dword ptr [rbp - 36]
+  sub eax, dword ptr [rbp - 24]
+  mov dword ptr [rbp - 36], eax
+  cmp dword ptr [rbp - 20], 0
+  jge LBB0_12
+  mov eax, dword ptr [rbp - 36]
+  xor eax, -559038737
+  mov dword ptr [rbp - 36], eax
+LBB0_12:
+  mov eax, dword ptr [rbp - 36]
+  mov dword ptr [rip + sink], eax
+  mov eax, dword ptr [rbp - 24]
+  add eax, dword ptr [rbp - 32]
+  pop rbp
+  ret
+
+sink:
+  long 0
